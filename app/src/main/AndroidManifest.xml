@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="embedded.block.vote">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+            android:allowBackup="true"
+            android:icon="@drawable/app_icon"
+            android:label="BOTE"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme"
+            android:usesCleartextTraffic="true">
+        <activity android:name=".UpdateActivity">
+        </activity>
+        <activity android:name=".EliminationActivity">
+        </activity>
+        <activity android:name=".FindpassActivity">
+        </activity>
+        <activity android:name=".FindidActivity">
+        </activity>
+        <activity android:name=".RegisterActivity">
+        </activity>
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".AdminVoteStart">
+        </activity>
+        <activity android:name=".AdminVoteStartClicked">
+        </activity>
+        <activity android:name=".StartPopupActivity" android:theme="@android:style/Theme.Dialog">
+        </activity>
+        <activity
+                android:name=".AdminActivity"
+                android:label="@string/title_activity_admin"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="adjustNothing">
+        </activity>
+        <activity android:name=".VoteListActivity">
+        </activity>
+        <activity android:name=".VotepageActivity">
+        </activity>
+        <activity android:name=".VoteResultActivity">
+        </activity>
+        <activity android:name=".AdminInputActivity"
+                  android:windowSoftInputMode="adjustNothing"/>
+        <activity android:name=".AdminResultActivity"></activity>
+        <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
+    </application>
+
+</manifest>
