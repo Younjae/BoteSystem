@@ -1,4 +1,4 @@
-package embedded.block.vote
+package embedded.block.vote.Admin
 
 import android.os.Bundle
 import android.os.Handler
@@ -12,6 +12,8 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import embedded.block.vote.UserSetting.LoginActivity
+import embedded.block.vote.R
 import kotlinx.android.synthetic.main.admin_result_list.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -51,7 +53,7 @@ class AdminResultActivity : AppCompatActivity() {
         var queue1: RequestQueue = Volley.newRequestQueue(this);
         val request1 = object : StringRequest(
             Request.Method.GET,
-            LoginActivity.ipAdress+"65009/vlock/votedeliver/resulter/?voteNum=" + AdminResultAdapter.arr_getList.getJSONObject(intent.getIntExtra("position",0)).getInt("voteNum"),
+            LoginActivity.ipAdress +"65009/vlock/votedeliver/resulter/?voteNum=" + AdminResultAdapter.arr_getList.getJSONObject(intent.getIntExtra("position",0)).getInt("voteNum"),
             Response.Listener { response ->
                 run {
                     temp = JSONArray(response.toString())
@@ -84,7 +86,7 @@ class AdminResultActivity : AppCompatActivity() {
         var queue3: RequestQueue = Volley.newRequestQueue(this);
         val request3 = object : StringRequest(
             Request.Method.GET,
-            LoginActivity.ipAdress+"65010/vlock/votedeliver/resulter/?voteNum=" + AdminResultAdapter.arr_getList.getJSONObject(intent.getIntExtra("position",0)).getInt("voteNum"),
+            LoginActivity.ipAdress +"65010/vlock/votedeliver/resulter/?voteNum=" + AdminResultAdapter.arr_getList.getJSONObject(intent.getIntExtra("position",0)).getInt("voteNum"),
             Response.Listener { response ->
                 run {
                     temp1 = JSONArray(response.toString())
@@ -117,7 +119,7 @@ class AdminResultActivity : AppCompatActivity() {
         var queue4: RequestQueue = Volley.newRequestQueue(this);
         val request4 = object : StringRequest(
             Request.Method.GET,
-            LoginActivity.ipAdress+"65011/vlock/votedeliver/resulter/?voteNum=" + AdminResultAdapter.arr_getList.getJSONObject(intent.getIntExtra("position",0)).getInt("voteNum"),
+            LoginActivity.ipAdress +"65011/vlock/votedeliver/resulter/?voteNum=" + AdminResultAdapter.arr_getList.getJSONObject(intent.getIntExtra("position",0)).getInt("voteNum"),
             Response.Listener { response ->
                 run {
                     temp2 = JSONArray(response.toString())
@@ -156,7 +158,7 @@ class AdminResultActivity : AppCompatActivity() {
 
         var queueq: RequestQueue = Volley.newRequestQueue(this);
         val requestq = object : JsonObjectRequest(
-            Request.Method.GET, LoginActivity.ipAdress+"65009/vlock/serverconnection/eli/?voteNum=" + AdminResultAdapter.arr_getList.getJSONObject(intent.getIntExtra("position",0)).getInt("voteNum"), json,
+            Request.Method.GET, LoginActivity.ipAdress +"65009/vlock/serverconnection/eli/?voteNum=" + AdminResultAdapter.arr_getList.getJSONObject(intent.getIntExtra("position",0)).getInt("voteNum"), json,
             Response.Listener { response ->
                 run {
 
@@ -174,7 +176,7 @@ class AdminResultActivity : AppCompatActivity() {
 
         var queueqq: RequestQueue = Volley.newRequestQueue(this);
         val requestqq = object : JsonObjectRequest(
-            Request.Method.GET, LoginActivity.ipAdress+"65010/vlock/serverconnection/eli/?voteNum=" + AdminResultAdapter.arr_getList.getJSONObject(intent.getIntExtra("position",0)).getInt("voteNum"), json,
+            Request.Method.GET, LoginActivity.ipAdress +"65010/vlock/serverconnection/eli/?voteNum=" + AdminResultAdapter.arr_getList.getJSONObject(intent.getIntExtra("position",0)).getInt("voteNum"), json,
             Response.Listener { response ->
                 run {
 
@@ -191,7 +193,7 @@ class AdminResultActivity : AppCompatActivity() {
         queueqq.add(requestqq)
         var queueqqq: RequestQueue = Volley.newRequestQueue(this);
         val requestqqq = object : JsonObjectRequest(
-            Request.Method.GET, LoginActivity.ipAdress+"65011/vlock/serverconnection/eli/?voteNum=" + AdminResultAdapter.arr_getList.getJSONObject(intent.getIntExtra("position",0)).getInt("voteNum"), json,
+            Request.Method.GET, LoginActivity.ipAdress +"65011/vlock/serverconnection/eli/?voteNum=" + AdminResultAdapter.arr_getList.getJSONObject(intent.getIntExtra("position",0)).getInt("voteNum"), json,
             Response.Listener { response ->
                 run {
 
@@ -229,7 +231,7 @@ class AdminResultActivity : AppCompatActivity() {
 
             var queue2: RequestQueue = Volley.newRequestQueue(this);
             val request2 = object : JsonObjectRequest(
-                Request.Method.POST, LoginActivity.ipAdress+"65001/vlock/votedeliver/index", json,
+                Request.Method.POST, LoginActivity.ipAdress +"65001/vlock/votedeliver/index", json,
                 Response.Listener { response ->
                     run {
 
@@ -252,7 +254,7 @@ class AdminResultActivity : AppCompatActivity() {
             var queue: RequestQueue = Volley.newRequestQueue(this);
             val request = object : StringRequest(
                 Request.Method.GET,
-                LoginActivity.ipAdress+"65001/bote/vote/voteresulter/admin/?voteNum=" + AdminResultAdapter.arr_getList.getJSONObject(intent.getIntExtra("position",0)).getInt("voteNum"),
+                LoginActivity.ipAdress +"65001/bote/vote/voteresulter/admin/?voteNum=" + AdminResultAdapter.arr_getList.getJSONObject(intent.getIntExtra("position",0)).getInt("voteNum"),
                 Response.Listener { response ->
                     run {
                         var arr_getResult = JSONArray(response.toString())
@@ -264,7 +266,7 @@ class AdminResultActivity : AppCompatActivity() {
                             var queue: RequestQueue = Volley.newRequestQueue(this);
                             val request = object : StringRequest(
                                 Request.Method.GET,
-                                LoginActivity.ipAdress+"65001/bote/vote/voteupdater/openresult/?voteNum=" + AdminResultAdapter.arr_getList.getJSONObject(intent.getIntExtra("position",0)).getInt("voteNum"),
+                                LoginActivity.ipAdress +"65001/bote/vote/voteupdater/openresult/?voteNum=" + AdminResultAdapter.arr_getList.getJSONObject(intent.getIntExtra("position",0)).getInt("voteNum"),
                                 Response.Listener { response ->
                                     run {
                                         Toast.makeText(this, "투표 결과 열람 승인 완료", Toast.LENGTH_SHORT).show()

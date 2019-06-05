@@ -1,4 +1,4 @@
-package embedded.block.vote
+package embedded.block.vote.Voter
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -11,6 +11,8 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import embedded.block.vote.UserSetting.LoginActivity
+import embedded.block.vote.R
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
@@ -33,7 +35,7 @@ class VoteListActivity : AppCompatActivity() {
         var queue: RequestQueue = Volley.newRequestQueue(this)
         val request = object : StringRequest(
             Request.Method.GET,
-            LoginActivity.ipAdress+"65001/bote/vote/votestarter/getlist/?userNum=" + LoginActivity.userNum,
+            LoginActivity.ipAdress +"65001/bote/vote/votestarter/getlist/?userNum=" + LoginActivity.userNum,
             Response.Listener { response ->
                 run {
                     val arr_getList = JSONArray(response.toString())
@@ -63,7 +65,7 @@ class VoteListActivity : AppCompatActivity() {
         var queuet: RequestQueue = Volley.newRequestQueue(this)
         val requestt = object : StringRequest(
             Request.Method.GET,
-            LoginActivity.ipAdress+"65001/bote/vote/voteresulter/votergetlist/?userNum=" + LoginActivity.userNum,
+            LoginActivity.ipAdress +"65001/bote/vote/voteresulter/votergetlist/?userNum=" + LoginActivity.userNum,
             Response.Listener { response ->
                 run {
                     val arr_getResultList = JSONArray(response.toString())

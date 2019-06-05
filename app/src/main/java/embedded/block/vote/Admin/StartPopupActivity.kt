@@ -1,4 +1,4 @@
-package embedded.block.vote
+package embedded.block.vote.Admin
 
 import android.app.Activity
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.Window
 import android.widget.Button
+import embedded.block.vote.R
 
 class StartPopupActivity : Activity(), View.OnClickListener {
         override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,7 +14,7 @@ class StartPopupActivity : Activity(), View.OnClickListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.start_popup)
 
-        val finishBtn = findViewById(R.id.finishBtn) as Button
+        val finishBtn = findViewById<Button>(R.id.finishBtn)
 
         finishBtn.setOnClickListener {
         val temp = AdminVoteStartClicked.AActivity as AdminVoteStartClicked
@@ -27,9 +28,7 @@ class StartPopupActivity : Activity(), View.OnClickListener {
 
 
         override fun onTouchEvent(event: MotionEvent): Boolean {
-        return if (event.action == MotionEvent.ACTION_OUTSIDE) {
-        false
-        } else true
+        return event.action != MotionEvent.ACTION_OUTSIDE
         }
 
         override fun onBackPressed() {

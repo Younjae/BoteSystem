@@ -1,6 +1,5 @@
-package embedded.block.vote
+package embedded.block.vote.Voter
 
-import android.app.Activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.android.volley.AuthFailureError
@@ -9,6 +8,8 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import embedded.block.vote.UserSetting.LoginActivity
+import embedded.block.vote.R
 import kotlinx.android.synthetic.main.votepage_alertdiaglog.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -27,7 +28,7 @@ class VotepageActivity : AppCompatActivity() {
         json.put("voteNum", "null")
         var queue: RequestQueue = Volley.newRequestQueue(this)
         val request = object : StringRequest(
-            Request.Method.GET, LoginActivity.ipAdress+"65001/bote/vote/votestarter/getcandidate/?voteNum=" + votenum,
+            Request.Method.GET, LoginActivity.ipAdress +"65001/bote/vote/votestarter/getcandidate/?voteNum=" + votenum,
             Response.Listener { response ->
                 run {
                     val arr_getPage = JSONArray(response.toString())

@@ -1,4 +1,4 @@
-package embedded.block.vote
+package embedded.block.vote.Voter
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import embedded.block.vote.UserSetting.EliminationActivity
+import embedded.block.vote.R
+import embedded.block.vote.UserSetting.UpdateActivity
 
 
 class ThirdFragment: Fragment()

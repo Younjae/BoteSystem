@@ -1,31 +1,31 @@
-package embedded.block.vote
+package embedded.block.vote.UserSetting
 
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.AnimatedImageDrawable
-import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDialog
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import com.android.volley.*
+import com.android.volley.AuthFailureError
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget
+import embedded.block.vote.Admin.AdminActivity
+import embedded.block.vote.R
+import embedded.block.vote.Voter.VoteListActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONObject
 import java.util.*
-import com.android.volley.DefaultRetryPolicy
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.GlideDrawableImageViewTarget
 
 
 class LoginActivity : AppCompatActivity() {
@@ -74,7 +74,7 @@ class LoginActivity : AppCompatActivity() {
                         var tempList = tmp.split(",")
 
 
-                        for (i in 0..tempList.size - 1)
+                        for (i in 0 until tempList.size)
                             userClass.add(tempList.get(i))
 
                         userId = myid
@@ -113,6 +113,7 @@ class LoginActivity : AppCompatActivity() {
                 else {
                     progressOFF()
                     Toast.makeText(this, "서버가 작동중이 아닙니다.", Toast.LENGTH_SHORT).show()
+                    retryCount = 0
                 }
             }
         ) {
@@ -139,19 +140,23 @@ class LoginActivity : AppCompatActivity() {
 
             progressDialog = AppCompatDialog(activity)
             progressDialog?.setCancelable(false)
-            progressDialog?.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            progressDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             progressDialog?.setContentView(R.layout.progress_loading)
             progressDialog?.show()
 
         }
 
-        val img_loading_frame = progressDialog?.findViewById<ImageView>(R.id.iv_frame_loading) as ImageView
+        val img_loading_frame = progressDialog?.findViewById<ImageView>(
+            R.id.iv_frame_loading
+        )
         var gifImg = GlideDrawableImageViewTarget(img_loading_frame)
         Glide.with(this).load(R.drawable.loading).into(gifImg)
 
-        val tv_progress_message = progressDialog?.findViewById<TextView>(R.id.tv_progress_message) as TextView
+        val tv_progress_message = progressDialog?.findViewById<TextView>(
+            R.id.tv_progress_message
+        )
         if (!TextUtils.isEmpty(message)) {
-            tv_progress_message.text = message
+            tv_progress_message?.text = message
         }
 
 
@@ -169,7 +174,9 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        val tv_progress_message = progressDialog?.findViewById<View>(R.id.tv_progress_message) as TextView?
+        val tv_progress_message = progressDialog?.findViewById<View>(
+            R.id.tv_progress_message
+        ) as TextView?
         if (!TextUtils.isEmpty(message)) {
             tv_progress_message!!.text = message
         }

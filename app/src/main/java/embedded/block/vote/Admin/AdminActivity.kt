@@ -1,4 +1,4 @@
-package embedded.block.vote
+package embedded.block.vote.Admin
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,6 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
@@ -22,6 +21,10 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
+import embedded.block.vote.UserSetting.EliminationActivity
+import embedded.block.vote.UserSetting.LoginActivity
+import embedded.block.vote.R
+import embedded.block.vote.UserSetting.UpdateActivity
 import kotlinx.android.synthetic.main.admin_input.*
 import kotlinx.android.synthetic.main.admin_result.*
 import kotlinx.android.synthetic.main.admin_stop.*
@@ -34,13 +37,13 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-    var arr_voter = ArrayList<Int>()
-    lateinit var input_view: View
-    lateinit var stop_view: View
-    lateinit var user_setting_view: View
-    lateinit var result_view: View
-    lateinit var start_view: View
-    lateinit var image_view: View
+    private var arr_voter = ArrayList<Int>()
+    private lateinit var input_view: View
+    private lateinit var stop_view: View
+    private lateinit var user_setting_view: View
+    private lateinit var result_view: View
+    private lateinit var start_view: View
+    private lateinit var image_view: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +54,9 @@ class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val toggle = ActionBarDrawerToggle(
-            this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+            this, drawerLayout, toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
@@ -60,7 +65,7 @@ class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         stop_view = View.inflate(this, R.layout.admin_stop, null)
         user_setting_view = View.inflate(this, R.layout.user_setting, null)
         result_view = View.inflate(this, R.layout.admin_result, null)
-        start_view = View.inflate(this,R.layout.admin_start, null)
+        start_view = View.inflate(this, R.layout.admin_start, null)
         image_view = View.inflate(this, R.layout.image_content, null)
 
         navView.setNavigationItemSelectedListener(this)
@@ -134,7 +139,7 @@ class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                         var queue: RequestQueue = Volley.newRequestQueue(this);
                         val request = object : JsonObjectRequest(
                             Request.Method.POST,
-                            LoginActivity.ipAdress+"65001/bote/vote/votemaker",
+                            LoginActivity.ipAdress +"65001/bote/vote/votemaker",
                             json_toServer,
                             Response.Listener { response ->
                                 run {
@@ -171,7 +176,7 @@ class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                 var queue: RequestQueue = Volley.newRequestQueue(this);
                 val request = object : StringRequest(
                     Request.Method.GET,
-                    LoginActivity.ipAdress+"65001/bote/vote/voteupdater/getlist/?userNum=" + LoginActivity.userNum,
+                    LoginActivity.ipAdress +"65001/bote/vote/voteupdater/getlist/?userNum=" + LoginActivity.userNum,
                     Response.Listener { response ->
                         run {
                             var arr_getlist = JSONArray(response.toString())
@@ -211,7 +216,7 @@ class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
                 val request = object : StringRequest(
                     Request.Method.GET,
-                    LoginActivity.ipAdress+"65001/bote/vote/voteresulter/admingetlist/?userNum=" + LoginActivity.userNum,
+                    LoginActivity.ipAdress +"65001/bote/vote/voteresulter/admingetlist/?userNum=" + LoginActivity.userNum,
                     Response.Listener { response ->
                         run {
                             var arr_getlist = JSONArray(response.toString())
@@ -260,12 +265,12 @@ class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                 admin_content.removeAllViews()
                 admin_content.addView(user_setting_view)
                 button_user_setting_change.setOnClickListener { v: View? ->
-                    var intent_change = Intent(this, UpdateActivity::class.java)
-                    startActivityForResult(intent_change, 666)
+                    var intent = Intent(this, UpdateActivity::class.java)
+                    startActivityForResult(intent, 666)
                 }
                 button_user_setting_elimination.setOnClickListener { v: View? ->
-                    var intent_elimination = Intent(this, EliminationActivity::class.java)
-                    startActivityForResult(intent_elimination, 666)
+                    var intent = Intent(this, EliminationActivity::class.java)
+                    startActivityForResult(intent, 666)
                 }
                 button_user_setting_logout.setOnClickListener { v: View? ->
                     super.recreate()

@@ -12,44 +12,44 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
-        <activity android:name=".UpdateActivity">
+        <activity android:name=".UserSetting.UpdateActivity">
         </activity>
-        <activity android:name=".EliminationActivity">
+        <activity android:name=".UserSetting.EliminationActivity">
         </activity>
-        <activity android:name=".FindpassActivity">
+        <activity android:name=".UserSetting.FindpassActivity">
         </activity>
-        <activity android:name=".FindidActivity">
+        <activity android:name=".UserSetting.FindidActivity">
         </activity>
-        <activity android:name=".RegisterActivity">
+        <activity android:name=".UserSetting.RegisterActivity">
         </activity>
-        <activity android:name=".LoginActivity">
+        <activity android:name=".UserSetting.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".AdminVoteStart">
+        <activity android:name=".Admin.AdminVoteStart">
         </activity>
-        <activity android:name=".AdminVoteStartClicked">
+        <activity android:name=".Admin.AdminVoteStartClicked">
         </activity>
-        <activity android:name=".StartPopupActivity" android:theme="@android:style/Theme.Dialog">
+        <activity android:name=".Admin.StartPopupActivity" android:theme="@android:style/Theme.Dialog">
         </activity>
         <activity
-                android:name=".AdminActivity"
+                android:name=".Admin.AdminActivity"
                 android:label="@string/title_activity_admin"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="adjustNothing">
         </activity>
-        <activity android:name=".VoteListActivity">
+        <activity android:name=".Voter.VoteListActivity">
         </activity>
-        <activity android:name=".VotepageActivity">
+        <activity android:name=".Voter.VotepageActivity">
         </activity>
-        <activity android:name=".VoteResultActivity">
+        <activity android:name=".Voter.VoteResultActivity">
         </activity>
-        <activity android:name=".AdminInputActivity"
+        <activity android:name=".Admin.AdminInputActivity"
                   android:windowSoftInputMode="adjustNothing"/>
-        <activity android:name=".AdminResultActivity"></activity>
+        <activity android:name=".Admin.AdminResultActivity"></activity>
         <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
     </application>
 

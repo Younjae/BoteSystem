@@ -1,4 +1,4 @@
-package embedded.block.vote
+package embedded.block.vote.Voter
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -8,6 +8,8 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import embedded.block.vote.UserSetting.LoginActivity
+import embedded.block.vote.R
 import kotlinx.android.synthetic.main.voteresult_list.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -26,7 +28,7 @@ class VoteResultActivity : AppCompatActivity() {
             var queue: RequestQueue = Volley.newRequestQueue(this)
             val request = object : StringRequest(
                 Request.Method.GET,
-                LoginActivity.ipAdress+"65001/bote/vote/voteresulter/voter/?voteNum=" + resultVoteNum,
+                LoginActivity.ipAdress +"65001/bote/vote/voteresulter/voter/?voteNum=" + resultVoteNum,
                 Response.Listener { response ->
                     run {
                         val arr_ResultList = JSONArray(response.toString())

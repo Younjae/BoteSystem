@@ -1,4 +1,4 @@
-package embedded.block.vote
+package embedded.block.vote.Admin
 
 import android.app.Activity
 import android.content.Intent
@@ -11,7 +11,9 @@ import android.widget.Spinner
 import com.android.volley.*
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import kotlin.jvm.Throws;
+import embedded.block.vote.R
+import embedded.block.vote.UserSetting.LoginActivity
+import kotlin.jvm.Throws
 
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -33,8 +35,8 @@ private var selectTime = 1
         voteNum = intent.getIntExtra("voteNum", 9999)
 
         setContentView(R.layout.admin_start_clicked)
-        val spinner = findViewById(R.id.spinnerStart) as Spinner
-        val startBtn = findViewById(R.id.startBtn) as Button
+        val spinner = findViewById<Spinner>(R.id.spinnerStart)
+        val startBtn = findViewById<Button>(R.id.startBtn)
 
         val requestQueue = Volley.newRequestQueue(this)
         AActivity = this
@@ -68,7 +70,7 @@ private var selectTime = 1
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         quitTime = sdf.format(time)
         val url =
-        "http://203.249.127.32:65001/bote/vote/voteupdater/votereaper/?voteNum=$voteNum&quitTime=$quitTime"
+        LoginActivity.ipAdress + "65001/bote/vote/voteupdater/votereaper/?voteNum=$voteNum&quitTime=$quitTime"
         val stringRequest = object : StringRequest(Request.Method.GET,
         url, Response.Listener { }, Response.ErrorListener { error -> error.printStackTrace() }) {
 @Throws(AuthFailureError::class)

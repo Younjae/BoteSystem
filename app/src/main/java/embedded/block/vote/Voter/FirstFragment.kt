@@ -1,4 +1,4 @@
-package embedded.block.vote
+package embedded.block.vote.Voter
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,12 +6,13 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import embedded.block.vote.R
 import kotlinx.android.synthetic.main.fragment_first.*
 
 class FirstFragment: Fragment()
 {
     companion object {
-        var adapter:VoteListAdapter? = null
+        var adapter: VoteListAdapter? = null
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +41,7 @@ class FirstFragment: Fragment()
 
         flag_listView1.setOnItemClickListener { parent, view, position, id ->
             var intent = Intent(activity, VotepageActivity::class.java)
-            intent.putExtra("votenum",VoteListActivity.voteNumber[position])
+            intent.putExtra("votenum", VoteListActivity.voteNumber[position])
             intent.putExtra("quittime", VoteListActivity.voteQuitTime[position])
             startActivity(intent)
         }

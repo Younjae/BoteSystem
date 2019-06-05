@@ -1,4 +1,4 @@
-package embedded.block.vote
+package embedded.block.vote.Admin
 
 import android.app.AlertDialog
 import android.content.Context
@@ -14,6 +14,8 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import embedded.block.vote.UserSetting.LoginActivity
+import embedded.block.vote.R
 import kotlinx.android.synthetic.main.admin_stop_item.view.*
 import org.json.JSONArray
 import java.util.HashMap
@@ -47,7 +49,7 @@ class AdminStopAdapter(val context: Context): BaseAdapter() {
                 var queue: RequestQueue = Volley.newRequestQueue(context);
                 val request = object : StringRequest(
                     Request.Method.PUT,
-                    LoginActivity.ipAdress+"65001/bote/vote/voteupdater/quitvote/?voteNum=" + getItem(position).getInt("voteNum"),
+                    LoginActivity.ipAdress +"65001/bote/vote/voteupdater/quitvote/?voteNum=" + getItem(position).getInt("voteNum"),
                     Response.Listener { response ->
                         run {
                             Toast.makeText(context, "중단 완료", Toast.LENGTH_SHORT).show()

@@ -1,4 +1,4 @@
-package embedded.block.vote
+package embedded.block.vote.Voter
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager

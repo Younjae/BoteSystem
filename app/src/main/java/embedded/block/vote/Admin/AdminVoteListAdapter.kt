@@ -1,8 +1,6 @@
-package embedded.block.vote
+package embedded.block.vote.Admin
 
-import android.R
 import android.content.Context
-import android.text.Layout
 import android.widget.TextView
 import android.view.ViewGroup
 import android.view.LayoutInflater

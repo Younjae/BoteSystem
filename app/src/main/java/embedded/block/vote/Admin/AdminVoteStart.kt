@@ -1,4 +1,4 @@
-package embedded.block.vote
+package embedded.block.vote.Admin
 
 import android.app.Activity
 import android.content.Intent
@@ -11,9 +11,10 @@ import android.widget.ListView
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
-import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import embedded.block.vote.UserSetting.LoginActivity
+import embedded.block.vote.R
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -35,33 +36,34 @@ private val data = ArrayList<AdminVoteItem>()
         toolbar.title = ""
         setSupportActionBar(toolbar)
 
-        val listView = findViewById(R.id.admin_start) as ListView
+        val listView = findViewById<ListView>(R.id.admin_start)
         th = this
 
-        val requestQueue = Volley.newRequestQueue(this)
-        val url = "http://203.249.127.32:65001/bote/vote/voteupdater/getlist/?userNum=" + LoginActivity.userNum
+        val url = LoginActivity.ipAdress+ "65001/bote/vote/voteupdater/getlist/?userNum=" + LoginActivity.userNum
 
 
         queue = Volley.newRequestQueue(this)
         val stringRequest = StringRequest(Request.Method.GET, url,
         Response.Listener { response ->
-        val r = response
         var vote: AdminVoteItem
-        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         try {
         jsonArray = JSONArray(response)
         for (i in 0 until jsonArray.length()) {
         jsonObject = jsonArray.getJSONObject(i)
         vote = AdminVoteItem(
-        jsonObject.getInt("voteNum"),
-        jsonObject.getString("voteName"),
-        jsonObject.getString("quitTime")
+                jsonObject.getInt("voteNum"),
+                jsonObject.getString("voteName"),
+                jsonObject.getString("quitTime")
         )
         if (jsonObject.getString("quitTime") === "null")
         data.add(vote)
         }
 
-        val adapter = AdminVoteListAdapter(applicationContext, R.layout.admin_start_item, data)
+        val adapter = AdminVoteListAdapter(
+                applicationContext,
+                R.layout.admin_start_item,
+                data
+        )
         listView.adapter = adapter
         } catch (e: JSONException) {
         e.printStackTrace()
@@ -95,5 +97,5 @@ private val data = ArrayList<AdminVoteItem>()
 
         companion object {
         lateinit var th: Activity
-        }
+                }
         }

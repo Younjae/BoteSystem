@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/app_bar_admin"
-        tools:context=".AdminActivity" android:id="@+id/admin_content">
+        tools:context=".Admin.AdminActivity" android:id="@+id/admin_content">
     <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" app:srcCompat="@drawable/mainbackground2"

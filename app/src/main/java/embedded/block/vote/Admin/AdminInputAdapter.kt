@@ -1,4 +1,4 @@
-package embedded.block.vote
+package embedded.block.vote.Admin
 
 import android.content.Context
 import android.util.Log
@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.CheckBox
 import android.widget.TextView
+import embedded.block.vote.R
 import org.json.JSONArray
-import org.json.JSONObject
 
 class AdminInputAdapter(val context: Context) : BaseAdapter() {
     companion object {
@@ -20,7 +20,6 @@ class AdminInputAdapter(val context: Context) : BaseAdapter() {
     var temp = false
     val mInflater: LayoutInflater = LayoutInflater.from(context)
     override fun getCount(): Int {
-        Log.d("etest", arr_getParticipation.length().toString())
         return arr_getParticipation.length()
     }
 

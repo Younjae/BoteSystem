@@ -1,6 +1,5 @@
-package embedded.block.vote
+package embedded.block.vote.Voter
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Handler
@@ -17,6 +16,8 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import embedded.block.vote.UserSetting.LoginActivity
+import embedded.block.vote.R
 import kotlinx.android.synthetic.main.alert_list_item.view.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -64,7 +65,7 @@ class AlertListViewAdapter(val context: Context, val quittime: String, val voteN
 
             var queue0: RequestQueue = Volley.newRequestQueue(context)
             val request0 = object : JsonObjectRequest(
-                Request.Method.PUT, LoginActivity.ipAdress+"65001/bote/vote/votestarter/index", json_bote,
+                Request.Method.PUT, LoginActivity.ipAdress +"65001/bote/vote/votestarter/index", json_bote,
                 Response.Listener { response ->
                     run {
 
@@ -81,7 +82,7 @@ class AlertListViewAdapter(val context: Context, val quittime: String, val voteN
             queue0.add(request0)
             var queue: RequestQueue = Volley.newRequestQueue(context)
             val request = object : JsonObjectRequest(
-                Request.Method.POST, LoginActivity.ipAdress+"65009/vlock/index", json,
+                Request.Method.POST, LoginActivity.ipAdress +"65009/vlock/index", json,
                 Response.Listener { response ->
                     run {
 
@@ -99,7 +100,7 @@ class AlertListViewAdapter(val context: Context, val quittime: String, val voteN
 
             var queue1: RequestQueue = Volley.newRequestQueue(context)
             val request1 = object : JsonObjectRequest(
-                Request.Method.POST, LoginActivity.ipAdress+"65010/vlock/index", json,
+                Request.Method.POST, LoginActivity.ipAdress +"65010/vlock/index", json,
                 Response.Listener { response ->
                     run {
 
@@ -117,7 +118,7 @@ class AlertListViewAdapter(val context: Context, val quittime: String, val voteN
 
             var queue2: RequestQueue = Volley.newRequestQueue(context)
             val request2 = object : JsonObjectRequest(
-                Request.Method.POST, LoginActivity.ipAdress+"65011/vlock/index", json,
+                Request.Method.POST, LoginActivity.ipAdress +"65011/vlock/index", json,
                 Response.Listener { response ->
                     run {
 
@@ -137,7 +138,7 @@ class AlertListViewAdapter(val context: Context, val quittime: String, val voteN
                 var queue3: RequestQueue = Volley.newRequestQueue(context)
                 val request3 = object : StringRequest(
                     Request.Method.GET,
-                    LoginActivity.ipAdress+"65009/vlock/serverconnection/leftserver/?voteNum=" + voteNum,
+                    LoginActivity.ipAdress +"65009/vlock/serverconnection/leftserver/?voteNum=" + voteNum,
                     Response.Listener { response ->
                         run {
                             var tmp_string = response.toString()
@@ -158,7 +159,7 @@ class AlertListViewAdapter(val context: Context, val quittime: String, val voteN
                 var queue4: RequestQueue = Volley.newRequestQueue(context)
                 val request4 = object : StringRequest(
                     Request.Method.GET,
-                    LoginActivity.ipAdress+"65010/vlock/serverconnection/leftserver/?voteNum=" + voteNum,
+                    LoginActivity.ipAdress +"65010/vlock/serverconnection/leftserver/?voteNum=" + voteNum,
                     Response.Listener { response ->
                         run {
                             var tmp_string = response.toString()
@@ -180,7 +181,7 @@ class AlertListViewAdapter(val context: Context, val quittime: String, val voteN
                 var queue5: RequestQueue = Volley.newRequestQueue(context)
                 val request5 = object : StringRequest(
                     Request.Method.GET,
-                    LoginActivity.ipAdress+"65011/vlock/serverconnection/leftserver/?voteNum=" + voteNum,
+                    LoginActivity.ipAdress +"65011/vlock/serverconnection/leftserver/?voteNum=" + voteNum,
                     Response.Listener { response ->
                         run {
                             var tmp_string = response.toString()

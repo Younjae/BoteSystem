@@ -1,4 +1,4 @@
-package embedded.block.vote
+package embedded.block.vote.Voter
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import embedded.block.vote.R
 import kotlinx.android.synthetic.main.fragment_second.*
 
 
@@ -25,7 +26,7 @@ class SecondFragment: Fragment()
         return view
     }
 
-    var adapter:VoteResultRecyclerAdapter? = null
+    var adapter: VoteResultRecyclerAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
 
@@ -39,7 +40,7 @@ class SecondFragment: Fragment()
         flag_listView2.setOnItemClickListener { parent, view, position, id ->
 
             var intent = Intent(activity, VoteResultActivity::class.java)
-            intent.putExtra("votenum",VoteListActivity.resultVoteNumber[position])
+            intent.putExtra("votenum", VoteListActivity.resultVoteNumber[position])
             startActivity(intent)
         }
     }
