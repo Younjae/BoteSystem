@@ -6,15 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.net.NetworkInfo
-import android.support.v4.content.ContextCompat.getSystemService
-import android.net.ConnectivityManager
-import android.net.wifi.WifiManager
 import android.os.Handler
 import android.support.v7.app.AppCompatDialog
 import android.text.TextUtils
 import android.util.Log
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -28,7 +23,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget
 import embedded.block.vote.R
 import org.json.JSONObject
-import java.util.HashMap
+import java.util.*
 
 
 @Suppress("DEPRECATION")
@@ -43,6 +38,7 @@ public class NetworkReceiver : BroadcastReceiver() {
         checkServer()
         }, 8000)
     }
+    //로딩 화면을 보여주는 함수
     fun progressON(activity: Activity?, message: String) {
 
         if (activity == null || activity.isFinishing) {
@@ -84,16 +80,14 @@ public class NetworkReceiver : BroadcastReceiver() {
             progressDialog!!.dismiss()
         }
     }
-    //로딩 화면에 메시지를 세팅하는 함수
+    //로딩화면을 셋팅하는 함수
     fun progressSET(message: String) {
 
         if (progressDialog == null || !progressDialog!!.isShowing) {
             return
         }
-
-        val tv_progress_message = progressDialog?.findViewById<View>(
-            R.id.tv_progress_message
-        ) as TextView?
+        progressDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val tv_progress_message = progressDialog?.findViewById<TextView>(R.id.tv_progress_message)
         if (!TextUtils.isEmpty(message)) {
             tv_progress_message!!.text = message
         }
@@ -105,7 +99,7 @@ public class NetworkReceiver : BroadcastReceiver() {
         json.put("myid", "null!")
         //Volley를 사용하며 REST API를 활요한 서버 통신
         var queue: RequestQueue = Volley.newRequestQueue(LoginActivity.loginAct);
-        val request = object : JsonObjectRequest(Request.Method.GET, LoginActivity.ipAdress + "65001/bote/login/?myid=jhsl31&mypass=dbswo1025", json,
+        val request = object : JsonObjectRequest(Request.Method.GET, LoginActivity.ipAdress + "65001/bote/login/?myid=admin&mypass=admin", json,
             Response.Listener { response ->
                 run {
                     progressOFF()
