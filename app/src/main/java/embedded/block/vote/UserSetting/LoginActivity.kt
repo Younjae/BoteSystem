@@ -1,9 +1,12 @@
 package embedded.block.vote.UserSetting
 
 import android.app.Activity
+import android.content.BroadcastReceiver
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDialog
@@ -22,21 +25,25 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget
 import embedded.block.vote.Admin.AdminActivity
 import embedded.block.vote.R
+import embedded.block.vote.UserSetting.NetworkReceiver.Companion.retryCount
 import embedded.block.vote.Voter.VoteListActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONObject
 import java.util.*
 
-
 class LoginActivity : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        //기본 ipAdress 주소를 사설 IP주소로 할당
-        ipAdress = "http://192.9.44.53:"
 
+        //기본 ipAdress 주소를 사설 IP주소로 할당
+        retryCount = 0
+        loginAct = this
+        val mReceiver = NetworkReceiver()
+        val receiverFilter = IntentFilter()
+        receiverFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION)
+        registerReceiver(mReceiver, receiverFilter)
         //회원가입 액티비티 호출 버튼
         regBtn.setOnClickListener {
             var intent = Intent(this, RegisterActivity::class.java)
@@ -44,7 +51,6 @@ class LoginActivity : AppCompatActivity() {
         }
         //로딩 화면 함수 호출, 로그인 함수 호출
         loginBtn.setOnClickListener {
-            progressON(this, "로그인중")
             login(myID.text.toString(), myPass.text.toString())
         }
         //아이디 찾기 액티비티 호출 버튼
@@ -68,7 +74,6 @@ class LoginActivity : AppCompatActivity() {
             Response.Listener { response ->
                 run {
                     //로그인 성공시 회원 데이터를 받아와서 Companion Object에 선언된 변수들에 저장
-                    progressOFF()
                     retryCount = 0
                     userClass.clear()
                     if(response.getString("userauthor") != "undefind") {
@@ -105,23 +110,8 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this, "아이디 혹은 비밀번호가 틀렸습니다", Toast.LENGTH_SHORT).show()
                     }
                 }
-            }, Response.ErrorListener {
-                //서버가 중단될 경우 3번까지 재시도하면서 사설IP와 공인IP를 전환해가며 접속 시도
-                retryCount++
-                if(retryCount <= 2) {
-                    if(ipAdress == "http://203.249.127.32:")
-                        ipAdress = "http://192.9.44.53:"
-                    else
-                        ipAdress = "http://203.249.127.32:"
-                    login(myid, mypass)
-                }
-                //사설IP와 공인IP 모두 접속에 실패한 경우
-                else {
-                    progressOFF()
-                    Toast.makeText(this, "서버가 작동중이 아닙니다.", Toast.LENGTH_SHORT).show()
-                    retryCount = 0
-                }
-            }
+            }, null
+
         ) {
             @Throws(AuthFailureError::class)
             override fun getHeaders(): MutableMap<String, String>? {
@@ -133,62 +123,8 @@ class LoginActivity : AppCompatActivity() {
         queue.add(request)
     }
     //로딩을 화면 구성하여 호출하는 함수
-    fun progressON(activity: Activity?, message: String) {
-
-        if (activity == null || activity.isFinishing) {
-            return
-        }
 
 
-        if (progressDialog != null && progressDialog!!.isShowing()) {
-            progressSET(message)
-        } else {
-
-            progressDialog = AppCompatDialog(activity)
-            progressDialog?.setCancelable(false)
-            progressDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            progressDialog?.setContentView(R.layout.progress_loading)
-            progressDialog?.show()
-
-        }
-
-        val img_loading_frame = progressDialog?.findViewById<ImageView>(
-            R.id.iv_frame_loading
-        )
-        var gifImg = GlideDrawableImageViewTarget(img_loading_frame)
-        Glide.with(this).load(R.drawable.loading).into(gifImg)
-
-        val tv_progress_message = progressDialog?.findViewById<TextView>(
-            R.id.tv_progress_message
-        )
-        if (!TextUtils.isEmpty(message)) {
-            tv_progress_message?.text = message
-        }
-
-
-    }
-
-    //로딩화면을 종료하는 함수
-    fun progressOFF() {
-        if (progressDialog != null && progressDialog!!.isShowing) {
-            progressDialog!!.dismiss()
-        }
-    }
-    //로딩 화면에 메시지를 세팅하는 함수
-    fun progressSET(message: String) {
-
-        if (progressDialog == null || !progressDialog!!.isShowing) {
-            return
-        }
-
-        val tv_progress_message = progressDialog?.findViewById<View>(
-            R.id.tv_progress_message
-        ) as TextView?
-        if (!TextUtils.isEmpty(message)) {
-            tv_progress_message!!.text = message
-        }
-
-    }
     //로그인시 저장되는 사용자 정보 및 로딩화면, 재시도 횟수를 저장하는 Companion Object
     companion object {
         var userId = ""
@@ -198,8 +134,7 @@ class LoginActivity : AppCompatActivity() {
         var userClass = ArrayList<String>()
         var userPhone = ""
         var userAuthor = ""
-        var ipAdress = ""
-        var retryCount = 0
-        var progressDialog : AppCompatDialog? = null
+        var ipAdress = "http://203.249.127.32:"
+        lateinit var loginAct: Activity
     }
 }

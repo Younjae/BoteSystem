@@ -1,6 +1,8 @@
 package embedded.block.vote.Admin
 
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -24,6 +26,7 @@ import com.google.gson.Gson
 import embedded.block.vote.UserSetting.EliminationActivity
 import embedded.block.vote.UserSetting.LoginActivity
 import embedded.block.vote.R
+import embedded.block.vote.UserSetting.NetworkReceiver
 import embedded.block.vote.UserSetting.UpdateActivity
 import kotlinx.android.synthetic.main.admin_input.*
 import kotlinx.android.synthetic.main.admin_result.*
@@ -37,6 +40,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    //각 메뉴버튼 화면을 인플레이션 하기위한 변수들을 lateinit으로 선언
     private var arr_voter = ArrayList<Int>()
     private lateinit var input_view: View
     private lateinit var stop_view: View
@@ -44,7 +48,7 @@ class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     private lateinit var result_view: View
     private lateinit var start_view: View
     private lateinit var image_view: View
-
+    //메인화면 인플레이션 및 메뉴버튼마다 추가되는 화면 인플레이션
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
@@ -70,7 +74,7 @@ class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
         navView.setNavigationItemSelectedListener(this)
     }
-
+    //뒤로 가기 버튼 눌렀을때 메뉴 상태에 따라 종료 및 메뉴 닫기
     override fun onBackPressed() {
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -79,25 +83,25 @@ class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             super.onBackPressed()
         }
     }
-
+    //선택된 메뉴에 따라 추가되는 화면 구분
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
+        //투표 등록 메뉴 선택 시
 
         when (item.itemId) {
-            R.id.nav_home -> {      //투표 등록 메뉴
+            R.id.nav_home -> {
                 admin_content.removeAllViews()
                 admin_content.addView(input_view)
                 var arr_can = ArrayList<String?>()
                 var adapter_canList = ArrayAdapter(this, android.R.layout.simple_list_item_1, arr_can)
                 listViw_admin_input_can.adapter = adapter_canList
 
-                //투표 참여자 선택 인텐트 불러옴
+                //투표 참여자 선택 액티비티 호출
                 button_admin_input_callSelect.setOnClickListener { v: View? ->
                     val intent = Intent(this, AdminInputActivity::class.java)
                     startActivityForResult(intent, 0)
                 }
 
-                //투표 후보자 입력 다이얼로그 불러옴
+                //투표 후보자 입력 다이얼로그 호출
                 button_admin_input_can.setOnClickListener { v: View? ->
                     val alertDialogBuilder = android.app.AlertDialog.Builder(this)
                     alertDialogBuilder.setTitle("후보자 입력")
@@ -161,7 +165,8 @@ class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                         Toast.makeText(this, "투표 등록 완료!", Toast.LENGTH_SHORT).show()
                     }
                 }
-            } //투표 등록 눌렀을때
+            }
+            //투표 시작 눌렀을때 투표 시작 액티비티 호출
             R.id.nav_start -> {
                 admin_content.removeAllViews()
                 admin_content.addView(image_view)
@@ -169,10 +174,11 @@ class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                startActivity(intent)
 
             }
+            //투표 중단 버튼 눌렀을때
             R.id.nav_slideshow -> {
                 admin_content.removeAllViews()
                 admin_content.addView(stop_view)
-
+            //사용자 별 투표 목록을 서버로 부터 불러옴
                 var queue: RequestQueue = Volley.newRequestQueue(this);
                 val request = object : StringRequest(
                     Request.Method.GET,
@@ -183,6 +189,7 @@ class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                             val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
                             var nowTime = format.format(System.currentTimeMillis())
                             var i = 0
+                            //현재 시간과 비교하여 중단 시간에 도달하지 않은 투표만 출력
                             while(i <= (arr_getlist.length()-1)) {
                                 if (arr_getlist.getJSONObject(i).getString("quitTime") == "null" ||
                                     arr_getlist.getJSONObject(i).getString("quitTime") < nowTime) {
@@ -207,13 +214,14 @@ class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                     }
                 }
                 queue.add(request)
-            }  //투표 중단 눌렀을때
+            }
+            //투표 결과 눌럿을때
             R.id.nav_result -> {
                 admin_content.removeAllViews()
                 admin_content.addView(result_view)
                 var queue: RequestQueue = Volley.newRequestQueue(this);
                 var arr_getName = ArrayList<String>()
-
+            //사용자별 투표 목록 불러옴
                 val request = object : StringRequest(
                     Request.Method.GET,
                     LoginActivity.ipAdress +"65001/bote/vote/voteresulter/admingetlist/?userNum=" + LoginActivity.userNum,
@@ -223,7 +231,7 @@ class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                             val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
                             var nowTime = format.format(System.currentTimeMillis())
                             var i = 0
-
+                            //현재 시간과 비교하여 종료 시간이 지난 투표만 가져옴
                             while(i <= (arr_getlist.length()-1)) {
                                 if (arr_getlist.getJSONObject(i).getString("quitTime") == "null" ||
                                     arr_getlist.getJSONObject(i).getString("quitTime") > nowTime) {
@@ -237,7 +245,7 @@ class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                             AdminResultAdapter.arr_getList = arr_getlist
                             for(i in 0..(AdminResultAdapter.arr_getList.length()-1))
                                 arr_getName.add(AdminResultAdapter.arr_getList.getJSONObject(i).getString("voteName"))
-
+                            //리스트 아이템 선택시 득표수를 가져오는 액티비티 호출
                             var madapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, arr_getName)
                             admin_result.setOnItemClickListener { parent, view, position, id ->
                                 var intent = Intent(this, AdminResultActivity::class.java)
@@ -259,19 +267,22 @@ class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                     }
                 }
                 queue.add(request)
-
+            //사용자 정보 메뉴 선택시
             }
             R.id.user_settings -> {
                 admin_content.removeAllViews()
                 admin_content.addView(user_setting_view)
+                //정보 변경 버튼 클릭시 정보 변경 액티비티 호출
                 button_user_setting_change.setOnClickListener { v: View? ->
                     var intent = Intent(this, UpdateActivity::class.java)
                     startActivityForResult(intent, 666)
                 }
+                //회원 탈퇴 버튼 클릭시 회원 탈퇴 액티비티 호출
                 button_user_setting_elimination.setOnClickListener { v: View? ->
                     var intent = Intent(this, EliminationActivity::class.java)
                     startActivityForResult(intent, 666)
                 }
+                //로그아웃 클릭시 나가기
                 button_user_setting_logout.setOnClickListener { v: View? ->
                     super.recreate()
                     finish()
@@ -285,12 +296,13 @@ class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
-
+    //액티비티 호출후 전달받은 결과에 따라 분기
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             0 -> {
                 when (resultCode) {
+                    //0은 투표 등록에서 후보자 선택 액티비티에서 전달 받은 값을 다른 변수에 저장하고 리스트로 출력
                     0 -> {
                         var arr = data?.getIntegerArrayListExtra("userNum")
 
@@ -305,11 +317,13 @@ class AdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                         listView_admin_input_selected.adapter = adpater
                         adpater.notifyDataSetChanged()
                     }
+                    //666은 투표 등록에서 후보자 선택 액티비티에서 취소 버튼이 선택될 경우
                     666 -> {
 
                     }
                 }
             }
+            //정보변경, 회원탈퇴 액티비티에서 자동 로그아웃 시키기 위함
             666 -> {
                 finish()
                 super.recreate()
