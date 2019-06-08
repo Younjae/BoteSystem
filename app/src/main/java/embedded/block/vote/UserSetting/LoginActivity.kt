@@ -39,8 +39,7 @@ class LoginActivity : AppCompatActivity() {
 
         //기본 ipAdress 주소를 사설 IP주소로 할당
         retryCount = 0
-        loginAct = this
-        val mReceiver = NetworkReceiver()
+        val mReceiver = NetworkReceiver(this)
         val receiverFilter = IntentFilter()
         receiverFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION)
         registerReceiver(mReceiver, receiverFilter)
@@ -135,6 +134,5 @@ class LoginActivity : AppCompatActivity() {
         var userPhone = ""
         var userAuthor = ""
         var ipAdress = "http://203.249.127.32:"
-        lateinit var loginAct: Activity
     }
 }

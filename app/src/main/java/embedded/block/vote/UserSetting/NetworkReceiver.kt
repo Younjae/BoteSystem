@@ -27,14 +27,15 @@ import java.util.*
 
 
 @Suppress("DEPRECATION")
-public class NetworkReceiver : BroadcastReceiver() {
+public class NetworkReceiver(activity: Activity?) : BroadcastReceiver() {
+    var thisActivity: Activity? = activity
     override fun onReceive(context: Context?, intent: Intent?) {
-        progressON(LoginActivity.loginAct, "네트워크 변경을 감지하였습니다.")
+        progressON(thisActivity, "네트워크 변경을 감지하였습니다.")
         flag = false
         val handler = Handler()
         handler.postDelayed(Runnable{
         retryCount = 0
-        progressON(LoginActivity.loginAct, "서버를 탐색중입니다.")
+        progressON(thisActivity, "서버를 탐색중입니다.")
         checkServer()
         }, 8000)
     }
@@ -98,7 +99,7 @@ public class NetworkReceiver : BroadcastReceiver() {
         var json = JSONObject()
         json.put("myid", "null!")
         //Volley를 사용하며 REST API를 활요한 서버 통신
-        var queue: RequestQueue = Volley.newRequestQueue(LoginActivity.loginAct);
+        var queue: RequestQueue = Volley.newRequestQueue(thisActivity);
         val request = object : JsonObjectRequest(Request.Method.GET, LoginActivity.ipAdress + "65001/bote/login/?myid=admin&mypass=admin", json,
             Response.Listener { response ->
                 run {
@@ -124,7 +125,7 @@ public class NetworkReceiver : BroadcastReceiver() {
                     if(flag == false) {
                         progressOFF()
                         retryCount = 0
-                        Toast.makeText(LoginActivity.loginAct, "서버가 작동중이 아닙니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(thisActivity, "서버가 작동중이 아닙니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
